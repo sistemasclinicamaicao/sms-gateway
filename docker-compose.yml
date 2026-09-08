@@ -64,7 +64,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-sms}
       MARIADB_AUTO_UPGRADE: "1"
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - mariadb-data-v2:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       start_period: 10s
@@ -74,4 +74,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mariadb-data:
+  mariadb-data-v2:
