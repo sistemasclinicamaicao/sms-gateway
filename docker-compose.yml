@@ -5,7 +5,7 @@ services:
     image: ghcr.io/android-sms-gateway/server:latest
     environment:
       CONFIG_PATH: config.yml
-      HTTP__LISTEN: 0.0.0.0:3000
+      HTTP__LISTEN: 0.0.0.0:8080
       GATEWAY__MODE: private
       GATEWAY__PRIVATE_TOKEN: ${GATEWAY_PRIVATE_TOKEN}
       DATABASE__HOST: db
@@ -17,7 +17,7 @@ services:
     volumes:
       - ./config.yml:/app/config.yml:ro
     expose:
-      - "3000"
+      - "8080"
     depends_on:
       db:
         condition: service_healthy
@@ -46,11 +46,11 @@ services:
   dashboard:
     image: ghcr.io/android-sms-gateway/web-dashboard:latest
     environment:
-      HTTP__ADDRESS: 0.0.0.0:3000
+      HTTP__ADDRESS: 0.0.0.0:8081
       GATEWAY__URL: ${DASHBOARD_GATEWAY_URL}
       GATEWAY__WEBHOOK_URL: ${DASHBOARD_WEBHOOK_URL}
     expose:
-      - "3000"
+      - "8081"
     depends_on:
       - backend
     restart: unless-stopped

@@ -13,7 +13,7 @@ gateway:
   upstream_url: https://api.sms-gate.app/upstream/v1
 
 http:
-  listen: 0.0.0.0:3000
+  listen: 0.0.0.0:8080
   proxies:
     - "127.0.0.1"
   api:
