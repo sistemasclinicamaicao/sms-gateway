@@ -11,7 +11,7 @@ services:
       DATABASE__HOST: db
       DATABASE__PORT: 3306
       DATABASE__USER: ${MYSQL_USER:-sms}
-      DATABASE__PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE__PASSWORD: ${MYSQL_PASSWORD:-sms}
       DATABASE__DATABASE: ${MYSQL_DATABASE:-sms}
       JWT__SECRET: ${JWT_SECRET}
     volumes:
@@ -33,7 +33,7 @@ services:
       DATABASE__HOST: db
       DATABASE__PORT: 3306
       DATABASE__USER: ${MYSQL_USER:-sms}
-      DATABASE__PASSWORD: ${MYSQL_PASSWORD}
+      DATABASE__PASSWORD: ${MYSQL_PASSWORD:-sms}
       DATABASE__DATABASE: ${MYSQL_DATABASE:-sms}
       JWT__SECRET: ${JWT_SECRET}
     volumes:
@@ -58,10 +58,10 @@ services:
   db:
     image: mariadb:lts
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-sms}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-sms}
       MYSQL_USER: ${MYSQL_USER:-sms}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-sms}
       MARIADB_AUTO_UPGRADE: "1"
     volumes:
       - mariadb-data:/var/lib/mysql
