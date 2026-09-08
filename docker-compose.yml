@@ -40,6 +40,7 @@ services:
   dashboard:
     image: ghcr.io/android-sms-gateway/web-dashboard:latest
     environment:
+      HTTP__LISTEN: 0.0.0.0:8081
       HTTP__ADDRESS: 0.0.0.0:8081
       GATEWAY__URL: ${DASHBOARD_GATEWAY_URL}
       GATEWAY__WEBHOOK_URL: ${DASHBOARD_WEBHOOK_URL}
