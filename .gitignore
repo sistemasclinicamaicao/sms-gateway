@@ -1,0 +1,11 @@
+.env
+.idea/
+.vscode/
+*.log
+Thumbs.db
+client-php/vendor/
+android/.idea/
+android/.gradle/
+android/app/build/
+android/build/
+web-dashboard/web/node_modules/

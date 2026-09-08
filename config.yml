@@ -1,0 +1,35 @@
+database:
+  host: db
+  port: 3306
+  user: sms
+  password: sms
+  database: sms
+  timezone: UTC
+  debug: false
+
+gateway:
+  mode: private
+  private_token: change-me
+  upstream_url: https://api.sms-gate.app/upstream/v1
+
+http:
+  listen: 0.0.0.0:3000
+  proxies:
+    - "127.0.0.1"
+  api:
+    host:
+    path: /api
+  openapi:
+    enabled: false
+
+jwt:
+  secret:
+  access_ttl: 15m
+  refresh_ttl: 720h
+  issuer: sms-gateway
+
+otp:
+  enabled: true
+  length: 6
+  ttl: 60
+  retries: 3
