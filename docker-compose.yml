@@ -4,22 +4,19 @@ services:
   backend:
     image: ghcr.io/android-sms-gateway/server:latest
     environment:
-      CONFIG_PATH: config.yml
       HTTP__LISTEN: 0.0.0.0:8080
       GATEWAY__MODE: private
       GATEWAY__PRIVATE_TOKEN: ${GATEWAY_PRIVATE_TOKEN}
-      DATABASE__HOST: db
+      DATABASE__HOST: mariadb
       DATABASE__PORT: 3306
       DATABASE__USER: ${MYSQL_USER:-sms}
       DATABASE__PASSWORD: ${MYSQL_PASSWORD:-sms}
       DATABASE__DATABASE: ${MYSQL_DATABASE:-sms}
       JWT__SECRET: ${JWT_SECRET}
-    volumes:
-      - ./config.yml:/app/config.yml:ro
     expose:
       - "8080"
     depends_on:
-      db:
+      mariadb:
         condition: service_healthy
     restart: unless-stopped
 
@@ -27,19 +24,16 @@ services:
     image: ghcr.io/android-sms-gateway/server:latest
     command: ["/app/app", "worker"]
     environment:
-      CONFIG_PATH: config.yml
       GATEWAY__MODE: private
       GATEWAY__PRIVATE_TOKEN: ${GATEWAY_PRIVATE_TOKEN}
-      DATABASE__HOST: db
+      DATABASE__HOST: mariadb
       DATABASE__PORT: 3306
       DATABASE__USER: ${MYSQL_USER:-sms}
       DATABASE__PASSWORD: ${MYSQL_PASSWORD:-sms}
       DATABASE__DATABASE: ${MYSQL_DATABASE:-sms}
       JWT__SECRET: ${JWT_SECRET}
-    volumes:
-      - ./config.yml:/app/config.yml:ro
     depends_on:
-      db:
+      mariadb:
         condition: service_healthy
     restart: unless-stopped
 
@@ -55,16 +49,20 @@ services:
       - backend
     restart: unless-stopped
 
-  db:
+  mariadb:
     image: mariadb:lts
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-sms}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-sms}
       MYSQL_USER: ${MYSQL_USER:-sms}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-sms}
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-sms}
+      MARIADB_DATABASE: ${MYSQL_DATABASE:-sms}
+      MARIADB_USER: ${MYSQL_USER:-sms}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD:-sms}
       MARIADB_AUTO_UPGRADE: "1"
     volumes:
-      - mariadb-data-v2:/var/lib/mysql
+      - mariadb-data-v3:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       start_period: 10s
@@ -74,4 +72,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mariadb-data-v2:
+  mariadb-data-v3:
