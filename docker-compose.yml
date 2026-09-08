@@ -16,8 +16,8 @@ services:
       JWT__SECRET: ${JWT_SECRET}
     volumes:
       - ./config.yml:/app/config.yml:ro
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     depends_on:
       db:
         condition: service_healthy
@@ -49,8 +49,8 @@ services:
       HTTP__ADDRESS: 0.0.0.0:3000
       GATEWAY__URL: ${DASHBOARD_GATEWAY_URL}
       GATEWAY__WEBHOOK_URL: ${DASHBOARD_WEBHOOK_URL}
-    ports:
-      - "3001:3000"
+    expose:
+      - "3000"
     depends_on:
       - backend
     restart: unless-stopped
